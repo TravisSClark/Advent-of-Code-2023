@@ -17,13 +17,17 @@ def puzzle_input():
 
 def num_first_last(str):
     first_num = last_num = possible_word_num = ""
+    
     for char in str:
+        #Number is clear here
         if char.isdigit():
             if not first_num:
                 first_num = char
             else:
                 last_num = char
+
         else:
+            # Baseline checking if it is a number spelled out
             possible_word_num += char
             if possible_word_num in word_to_num_dict:
                 if not first_num:
@@ -31,12 +35,15 @@ def num_first_last(str):
                 else:
                     last_num = word_to_num_dict[possible_word_num]
                 possible_word_num = ""
+            
             else:
                 possible_word_num = check_match(possible_word_num)
+                
     if not last_num and first_num:
         last_num = first_num
     return first_num + last_num
 
+# More complicationed, but basically if the characters match return otherwise reduce until they do
 def check_match(possible_word_num):
     while len(possible_word_num) > 0:
         for num_word in word_to_num_dict.keys():
@@ -45,11 +52,12 @@ def check_match(possible_word_num):
         possible_word_num = possible_word_num[1:]
     return ""
 
-
 def sum_list(list):
     sum = 0
     for str in list:
-        sum = sum + int(num_first_last(str))
+        num = int(num_first_last(str))
+        print(num)
+        sum += num
     return sum
 
 def main():
